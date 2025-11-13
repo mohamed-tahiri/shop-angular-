@@ -1,59 +1,105 @@
-# MyShop
+# My Shop — Angular Frontend - Mohamed TAHIRI
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.9.
+A tiny but functional e-commerce frontend built with **Angular**, **NgRx**, and **Angular Material**.  
+Uses a mock API (MSW) for products, authentication, and ratings.  
+Includes Storybook stories for key presentational components.
 
-## Development server
+---
 
-To start a local development server, run:
+## Features
+
+### 1. Login
+
+- Form with default credentials: `demo/demo`.
+- Dispatches login action → stores `access` & `refresh` tokens in NgRx state.
+- Shows loading indicator and error messages.
+- **Route:** `/app/login`
+
+### 2. Products Page
+
+- Filter products by `minRating` and `ordering`.
+- Paginated fetch from `/api/products/`.
+- Allows changing items per page (5 / 10 / 20).
+- Displays total count and product cards.
+- Shows loading spinner while fetching.
+- Pagination with `Prev/Next` buttons.
+- **Route:** `/app/shop/products`
+
+### 3. Product Rating Page
+
+- Enter a Product ID to fetch its average rating and vote count.
+- Fetches from `/api/products/:id/rating/`.
+- **Route:** `/app/shop/products/rating`
+
+### 4. State Management
+
+- NgRx slices for `auth` and `products`.
+- Effects handle API calls.
+- Selectors provide reactive observables to components.
+
+### 5. Presentational Components (for Storybook)
+
+- `ProductCardComponent`
+- `ProductsListComponent`
+- `LoginFormComponent`
+- Fully reusable and decoupled from containers.
+- Supports Storybook controls and action logging.
+
+### 6. Routing
+
+| Route                       | Component                    |
+| --------------------------- | ---------------------------- |
+| `/`                         | `HomeComponent`              |
+| `/dev`                      | `DevIndexComponent`          |
+| `/dev/auth`                 | `DevAuthComponent`           |
+| `/dev/products`             | `DevProductsComponent`       |
+| `/dev/products/:id/rating`  | `DevProductRatingComponent`  |
+| `/app`                      | `AppPlaceholderComponent`    |
+| `/app/login`                | `LoginPageComponent`         |
+| `/app/shop/products`        | `ProductsPageComponent`      |
+| `/app/shop/products/rating` | `ProductRatingPageComponent` |
+| `**`                        | Redirect to `/`              |
+
+### 7. UI & Styling
+
+- Angular Material: cards, buttons, form fields, progress indicators, selects.
+- Responsive layout for product lists.
+- `ProductsListComponent` adapts columns to screen size.
+
+---
+
+## Setup & Run
+
+1. Install dependencies:
 
 ```bash
-ng serve
+npm install
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+2. Add Angular Material (if not already added):
 
 ```bash
-ng generate component component-name
+ng add @angular/material
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+3. Start the Angular app:
 
 ```bash
-ng generate --help
+npm run start
 ```
 
-## Building
-
-To build the project run:
+4. Run Storybook:
 
 ```bash
-ng build
+npm run storybook
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+- MSW (Mock Service Worker) is enabled in development mode to mock API responses.
 
-## Running unit tests
+## Storybook
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+Stories are available in `src/stories`:
 
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+- `ProductCard.stories.ts`
+- `ProductsList.stories.ts`
+- `LoginForm.stories.ts`
