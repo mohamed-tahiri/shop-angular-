@@ -27,6 +27,7 @@ export class HeaderComponent {
   onLogin() { this.router.navigate(['/app/login']); }
   onLogout() { this.store.dispatch(logout()); }
   goToCart() { this.router.navigate(['/app/shop/cart']); }
+  goToRatings() { this.router.navigate(['/app/shop/products/rating'])}
 
 
   goToWishlist() { this.router.navigate(['/app/shop/wishlist']); }

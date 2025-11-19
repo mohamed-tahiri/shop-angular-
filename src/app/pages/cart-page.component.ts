@@ -19,8 +19,8 @@ import { CartItem } from '../state/cart/cart.model';
     <div class="max-w-6xl mx-auto space-y-8">
       <h2 class="text-2xl font-bold mb-4">Your Cart</h2>
 
-      <div *ngIf="cartItems$ | async as items; else emptyCart">
-        <app-cart-item *ngFor="let item of items"
+      <div *ngIf="(cartItems$ | async)?.length; else emptyCart">
+        <app-cart-item *ngFor="let item of cartItems$ | async"
           [item]="item"
           (qtyChange)="updateQty($event)"
           (remove)="remove($event)">

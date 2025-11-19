@@ -18,24 +18,24 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatProgressSpinnerModule
   ],
   template: `
-    <form [formGroup]="form" (ngSubmit)="submit()" class="space-y-4">
+    <form [formGroup]="form" (ngSubmit)="submit()" class="space-y-6">
       <mat-form-field appearance="fill" class="w-full">
         <mat-label>Nom d'utilisateur</mat-label>
-        <input matInput formControlName="username" />
+        <input matInput formControlName="username" placeholder="Entrez votre nom d'utilisateur"/>
       </mat-form-field>
 
       <mat-form-field appearance="fill" class="w-full">
         <mat-label>Mot de passe</mat-label>
-        <input matInput type="password" formControlName="password" />
+        <input matInput type="password" formControlName="password" placeholder="Entrez votre mot de passe"/>
       </mat-form-field>
 
-      <div *ngIf="error" class="text-red-600 text-sm">{{ error }}</div>
+      <div *ngIf="error" class="text-red-600 text-sm text-center">{{ error }}</div>
 
       <button
         mat-raised-button
         color="primary"
         type="submit"
-        class="w-full"
+        class="w-full flex justify-center items-center gap-2"
         [disabled]="loading"
       >
         <ng-container *ngIf="!loading">Se connecter</ng-container>
