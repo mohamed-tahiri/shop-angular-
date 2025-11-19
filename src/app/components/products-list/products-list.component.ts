@@ -8,45 +8,25 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 @Component({
   selector: 'app-products-list',
   standalone: true,
-  imports: [CommonModule, MatGridListModule, ProductCardComponent, MatProgressSpinnerModule],
+  imports: [CommonModule, ProductCardComponent, MatProgressSpinnerModule],
   template: `
-    <ng-container *ngIf="loading; else content">
-      <div class="flex justify-center py-8">
-        <mat-progress-spinner mode="indeterminate" diameter="40"></mat-progress-spinner>
-      </div>
-    </ng-container>
+    <div *ngIf="loading" class="flex justify-center py-10">
+      <mat-progress-spinner diameter="50" mode="indeterminate"></mat-progress-spinner>
+    </div>
 
-    <ng-template #content>
-      <mat-grid-list [cols]="cols" rowHeight="1:1" gutterSize="16px" class="mb-4">
-        <mat-grid-tile *ngFor="let product of products">
-          <app-product-card [product]="product"></app-product-card>
-        </mat-grid-tile>
-      </mat-grid-list>
+    <div *ngIf="!loading" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      <app-product-card
+        *ngFor="let product of products"
+        [product]="product">
+      </app-product-card>
+    </div>
 
-      <p *ngIf="!products?.length" class="text-center text-gray-500 mt-4">
-        No products found.
-      </p>
-    </ng-template>
+    <p *ngIf="!loading && !products?.length" class="text-center text-gray-500 mt-4">
+      No products found.
+    </p>
   `,
 })
-export class ProductsListComponent implements OnInit {
+export class ProductsListComponent {
   @Input() products: Product[] = [];
   @Input() loading = false;
-
-  cols = 4; // default desktop
-
-  ngOnInit() {
-    this.updateCols(window.innerWidth);
-  }
-
-  @HostListener('window:resize', ['$event'])
-  onResize(event: any) {
-    this.updateCols(event.target.innerWidth);
-  }
-
-  private updateCols(width: number) {
-    if (width < 640) this.cols = 1;      // mobile
-    else if (width < 1024) this.cols = 2; // tablet
-    else this.cols = 4;                  // desktop
-  }
 }
