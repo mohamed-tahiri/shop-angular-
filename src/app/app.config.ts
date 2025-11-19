@@ -15,6 +15,9 @@ import { ProductsEffects } from './state/products/products.effects';
 import { routes } from './app.routes';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { HttpClientModule } from '@angular/common/http';
+import { CartEffects } from './state/cart/cart.effects';
+import { cartReducer } from './state/cart/cart.reducer';
+import { wishlistReducer } from './state/wishlist/wishlist.reducer';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -22,8 +25,15 @@ export const appConfig: ApplicationConfig = {
     provideBrowserGlobalErrorListeners(),
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
-    provideStore({ auth: authReducer, products: productsReducer }),
-    provideEffects([AuthEffects, ProductsEffects]),
+    provideStore(
+      {
+        auth: authReducer, 
+        products: productsReducer,
+        cart: cartReducer,
+        wishlist: wishlistReducer
+      }
+    ),
+    provideEffects([AuthEffects, ProductsEffects, CartEffects]),
     provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() })
 ],
 };
