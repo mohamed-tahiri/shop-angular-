@@ -7,3 +7,4 @@ export const loginFailure = createAction('[Auth] Login Failure', props<{ error: 
 export const refreshToken = createAction('[Auth] Refresh Token', props<{ refresh: string }>());
 export const refreshSuccess = createAction('[Auth] Refresh Success', props<{ access: string }>());
 export const refreshFailure = createAction('[Auth] Refresh Failure', props<{ error: any }>());
+export const logout = createAction('[Auth] Logout');

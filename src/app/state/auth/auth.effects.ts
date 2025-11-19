@@ -1,17 +1,19 @@
-import { inject, Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { ShopApiService } from '../../core/services/shop-api.service';
+import { Router } from '@angular/router';
 import * as AuthActions from './auth.actions';
-import { catchError, map, switchMap } from 'rxjs/operators';
+import { ShopApiService } from '../../core/services/shop-api.service';
+import { switchMap, map, catchError, tap } from 'rxjs/operators';
 import { of } from 'rxjs';
 
 @Injectable()
 export class AuthEffects {
   private actions$ = inject(Actions);
   private api = inject(ShopApiService);
+  private router = inject(Router);
 
   login$ = createEffect(() =>
-    this.actions$?.pipe(
+    this.actions$.pipe(
       ofType(AuthActions.login),
       switchMap(({ username, password }) =>
         this.api.login(username, password).pipe(
@@ -23,7 +25,7 @@ export class AuthEffects {
   );
 
   refresh$ = createEffect(() =>
-    this.actions$?.pipe(
+    this.actions$.pipe(
       ofType(AuthActions.refreshToken),
       switchMap(({ refresh }) =>
         this.api.refresh(refresh).pipe(
@@ -32,5 +34,13 @@ export class AuthEffects {
         )
       )
     )
+  );
+
+  logout$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.logout),
+      tap(() => this.router.navigate(['/app/login']))
+    ),
+    { dispatch: false }
   );
 }

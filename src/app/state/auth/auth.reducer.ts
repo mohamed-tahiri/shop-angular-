@@ -8,7 +8,12 @@ export interface AuthState {
   error: any | null;
 }
 
-export const initialAuthState: AuthState = { access: null, refresh: null, loading: false, error: null };
+export const initialAuthState: AuthState = {
+  access: null,
+  refresh: null,
+  loading: false,
+  error: null
+};
 
 export const authReducer = createReducer(
   initialAuthState,
@@ -16,5 +21,6 @@ export const authReducer = createReducer(
   on(AuthActions.loginSuccess, (state, { access, refresh }) => ({ ...state, access, refresh, loading: false })),
   on(AuthActions.loginFailure, (state, { error }) => ({ ...state, loading: false, error })),
   on(AuthActions.refreshSuccess, (state, { access }) => ({ ...state, access })),
-  on(AuthActions.refreshFailure, (state, { error }) => ({ ...state, access: null, refresh: null, error }))
+  on(AuthActions.refreshFailure, (state, { error }) => ({ ...state, access: null, refresh: null, error })),
+  on(AuthActions.logout, state => ({ ...state, access: null, refresh: null })) // ← logout géré ici
 );

@@ -22,6 +22,18 @@ export class ProductsEffects {
     )
   );
 
+  loadProduct$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(P.loadProduct),
+      switchMap(({ id }) =>
+        this.api.getProductById(id).pipe(
+          map(product => P.loadProductSuccess({ product })),
+          catchError(error => of(P.loadProductFailure({ error })))
+        )
+      )
+    )
+  );
+
   loadRating$ = createEffect(() =>
     this.actions$.pipe(
       ofType(P.loadRating),
