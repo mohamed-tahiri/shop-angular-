@@ -23,4 +23,8 @@ export class ShopApiService {
   getRating(productId: number) {
     return this.http.get<{ product_id: number; avg_rating: number; count: number }>(`/api/products/${productId}/rating/`);
   }
+
+  getProductById(productId: number): Observable<any> {
+    return this.http.get<any>(`/api/products/${productId}/`);
+  }
 }
