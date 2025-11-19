@@ -1,0 +1,60 @@
+<div *ngIf="product$ | async as product" class="p-6 bg-gray-50 min-h-screen">
+  <div class="max-w-6xl mx-auto space-y-8 bg-white rounded-xl shadow-md overflow-hidden">
+    <!-- Image -->
+    <div class="w-full h-64 bg-gray-100 flex items-center justify-center overflow-hidden">
+      <img
+        *ngIf="product.image_url; else noImage"
+        [src]="product.image_url"
+        [alt]="product.name"
+        class="object-cover w-full h-full"
+      />
+      <ng-template #noImage>
+        <span class="text-gray-400 text-lg">No Image</span>
+      </ng-template>
+    </div>
+
+    <!-- Product Info -->
+    <div class="p-6 space-y-4">
+      <h2 class="text-2xl font-bold">{{ product.name }}</h2>
+      <p class="text-lg font-semibold">Price: {{ product.price | currency: 'EUR' }}</p>
+      <p>Owner: {{ product.owner_id }}</p>
+      <p>Created: {{ product.created_at | date: 'short' }}</p>
+
+      <mat-chip color="primary" selected class="mt-2">
+        Avg Rating: {{ avgRating$ | async }}
+      </mat-chip>
+
+      <!-- Stock -->
+      <p class="font-bold" [ngClass]="stockClass(product.stock)">Stock: {{ product.stock || 0 }}</p>
+
+      <!-- Quantity -->
+      <div class="flex items-center space-x-2">
+        <label for="quantity" class="font-medium">Quantity:</label>
+        <input
+          id="quantity"
+          type="number"
+          [(ngModel)]="quantity"
+          [max]="product.stock || 100"
+          min="1"
+          class="border px-2 py-1 rounded w-20"
+        />
+      </div>
+
+      <p *ngIf="quantity > (product.stock || 0)" class="text-red-600">
+        Quantity exceeds available stock!
+      </p>
+
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="addToCart(product)"
+        [disabled]="quantity > (product.stock || 0) || (product.stock || 0) === 0"
+        class="mt-2 px-6 py-2 rounded"
+      >
+        Add to Cart
+      </button>
+    </div>
+  </div>
+</div>
+
+<p *ngIf="!(product$ | async)" class="text-center text-gray-500 mt-6">Loading product...</p>

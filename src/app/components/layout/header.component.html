@@ -1,0 +1,63 @@
+<header class="p-4 border-b bg-white shadow flex justify-between items-center">
+  <!-- Logo / Brand -->
+  <strong
+    class="cursor-pointer font-bold text-xl text-gray-900 hover:text-gray-700"
+    (click)="goHome()"
+  >
+    My Shop
+  </strong>
+
+  <!-- Actions -->
+  <div class="flex items-center space-x-4">
+    <!-- Si connecté -->
+    <ng-container *ngIf="isLoggedIn$ | async; else loginBtn">
+      <!-- Produits -->
+      <button
+        (click)="goToProducts()"
+        class="px-3 py-1 bg-gray-100 text-gray-800 rounded hover:bg-gray-200 transition"
+      >
+        Produits
+      </button>
+
+      <!-- Panier -->
+      <button
+        class="relative px-3 py-1 bg-gray-100 text-gray-800 rounded hover:bg-gray-200 transition"
+        (click)="goToCart()"
+      >
+        🛒
+        <span
+          *ngIf="cartCount$ | async as count"
+          class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs"
+        >
+          {{ count }}
+        </span>
+      </button>
+
+      <!-- Wishlist -->
+      <button
+        class="relative px-3 py-1 bg-gray-100 text-gray-800 rounded hover:bg-gray-200 transition flex items-center gap-1"
+        (click)="goToWishlist()"
+      >
+        ❤️ Wishlist
+      </button>
+
+      <!-- Logout -->
+      <button
+        (click)="onLogout()"
+        class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition"
+      >
+        Logout
+      </button>
+    </ng-container>
+
+    <!-- Si non connecté -->
+    <ng-template #loginBtn>
+      <button
+        (click)="onLogin()"
+        class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition"
+      >
+        Login
+      </button>
+    </ng-template>
+  </div>
+</header>
