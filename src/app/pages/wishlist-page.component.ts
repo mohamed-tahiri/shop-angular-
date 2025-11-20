@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Store } from '@ngrx/store';
 import { selectWishlistItems } from '../state/wishlist/wishlist.selectors';
-import { ProductsListComponent } from '../components/products-list/products-list.component';
+import { ProductsListComponent } from '../shared/components/products-list/products-list.component';
 
 @Component({
   selector: 'app-wishlist-page',

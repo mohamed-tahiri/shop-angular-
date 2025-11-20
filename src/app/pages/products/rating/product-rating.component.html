@@ -1,0 +1,32 @@
+<div class="p-4 min-h-screen bg-gray-50 flex justify-center">
+  <div class="w-full max-w-md space-y-6">
+    <mat-card class="p-4 space-y-4">
+      <h2 class="text-2xl font-semibold text-gray-800">Product Rating</h2>
+
+      <form (ngSubmit)="fetch()" class="flex gap-2 items-center justify-center">
+        <mat-form-field appearance="fill" class="flex-1">
+          <mat-label>Product ID</mat-label>
+          <input matInput type="number" [(ngModel)]="productId" name="productId" />
+        </mat-form-field>
+
+        <button mat-raised-button color="primary" type="submit">Get rating</button>
+      </form>
+
+      <!-- Loading -->
+      <div *ngIf="loading$ | async" class="flex justify-center py-4">
+        <mat-progress-spinner mode="indeterminate" diameter="40"></mat-progress-spinner>
+      </div>
+
+      <!-- Product display -->
+      <ng-container *ngIf="product$ | async as product">
+        <app-product-card [product]="product"></app-product-card>
+      </ng-container>
+
+      <!-- Rating display -->
+      <div *ngIf="rating$ | async as rating" class="mt-2 text-gray-700">
+        <p>Average: {{ rating.avg_rating }} / 5</p>
+        <p>Total votes: {{ rating.count }}</p>
+      </div>
+    </mat-card>
+  </div>
+</div>

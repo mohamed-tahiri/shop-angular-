@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/angular';
-import { ProductsListComponent } from '../app/components/products-list/products-list.component';
-import { ProductCardComponent } from '../app/components/product-card/product-card.component';
 import { moduleMetadata } from '@storybook/angular';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
 import { Product, products } from '../mocks/data';
+import { ProductsListComponent } from '../app/shared/components/products-list/products-list.component';
+import { ProductCardComponent } from '../app/shared/components/product-card/product-card.component';
 
 const sampleProducts: Product[] = products;
 

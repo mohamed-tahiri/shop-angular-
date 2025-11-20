@@ -1,0 +1,80 @@
+<mat-toolbar
+  class="bg-white shadow flex justify-between items-center sticky top-0 z-10 px-4 md:px-6 py-3"
+>
+  <!-- LOGO -->
+  <strong
+    class="cursor-pointer font-bold text-xl md:text-3xl text-gray-900 tracking-widest"
+    (click)="goHome()"
+  >
+    MY SHOP
+  </strong>
+
+  <!-- RIGHT SECTION -->
+  <div class="flex items-center space-x-3 ml-auto">
+    <ng-container *ngIf="isLoggedIn$ | async; else loginBtn">
+      <!-- SEARCH BAR (Tailwind) -->
+      <div class="hidden md:flex items-center">
+        <div class="relative w-48 md:w-64">
+          <input
+            type="text"
+            placeholder="Rechercher..."
+            class="h-10 w-full pl-4 pr-10 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-500"
+          />
+          <mat-icon
+            (click)="onSearch()"
+            class="absolute right-2 top-1/2 -translate-y-1/2 text-gray-600 cursor-pointer hover:text-gray-800"
+          >
+            search
+          </mat-icon>
+        </div>
+      </div>
+
+      <!-- Menu desktop -->
+      <button
+        mat-button
+        (click)="goToProducts()"
+        class="hidden lg:block text-gray-800 hover:bg-gray-100"
+      >
+        Produits
+      </button>
+
+      <button
+        mat-button
+        (click)="goToRatings()"
+        class="hidden lg:block text-gray-800 hover:bg-gray-100"
+      >
+        Ratings
+      </button>
+
+      <!-- Wishlist -->
+      <button
+        mat-icon-button
+        (click)="goToWishlist()"
+        class="text-gray-800 relative hidden md:flex"
+      >
+        <mat-icon>favorite_border</mat-icon>
+      </button>
+
+      <!-- Cart -->
+      <button mat-icon-button (click)="goToCart()" class="text-gray-800 relative">
+        <ng-container *ngIf="cartCount$ | async as count">
+          <mat-icon matBadge="{{ count }}" matBadgeColor="warn" [matBadgeHidden]="count === 0">
+            shopping_cart
+          </mat-icon>
+        </ng-container>
+      </button>
+
+      <!-- Déconnexion (icon only) -->
+      <button mat-icon-button (click)="onLogout()" class="text-gray-800 hidden md:flex">
+        <mat-icon>logout</mat-icon>
+      </button>
+    </ng-container>
+
+    <!-- LOGIN ICON -->
+    <ng-template #loginBtn>
+      <button mat-icon-button (click)="onLogin()" class="text-gray-800 hidden md:flex">
+        <mat-icon>login</mat-icon>
+      </button>
+    </ng-template>
+  </div>
+</mat-toolbar>

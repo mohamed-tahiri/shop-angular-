@@ -1,5 +1,4 @@
 import { Component, Input, inject, OnInit } from '@angular/core';
-import { Product } from '../../../mocks/data';
 import { CommonModule, CurrencyPipe, DatePipe, NgClass } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
@@ -7,9 +6,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { addToWishlist, removeFromWishlist } from '../../state/wishlist/wishlist.actions';
-import { selectWishlistItems } from '../../state/wishlist/wishlist.selectors';
 import { Observable, firstValueFrom, map } from 'rxjs';
+import { Product } from '../../../../mocks/data';
+import { selectWishlistItems } from '../../../state/wishlist/wishlist.selectors';
+import { addToWishlist, removeFromWishlist } from '../../../state/wishlist/wishlist.actions';
 
 @Component({
   selector: 'app-product-card',

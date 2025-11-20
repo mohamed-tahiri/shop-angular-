@@ -6,9 +6,9 @@ import { selectCartItems, selectCartTotal } from '../state/cart/cart.selectors';
 import { updateQuantity, removeItem, clearCart } from '../state/cart/cart.actions';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { CartItemComponent } from '../components/card/cart-item.component';
-import { CartSummaryComponent } from '../components/card/cart-summary.component';
 import { CartItem } from '../state/cart/cart.model';
+import { CartItemComponent } from '../shared/components/card/cart-item.component';
+import { CartSummaryComponent } from '../shared/components/card/cart-summary.component';
 
 @Component({
   selector: 'app-cart-page',

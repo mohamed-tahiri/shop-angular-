@@ -2,10 +2,10 @@ import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { map, Observable } from 'rxjs';
-import { addItem } from '../../state/cart/cart.actions';
-import * as P from '../../state/products/products.actions';
-import * as ProductSelectors from '../../state/products/products.selectors';
-import { Product } from '../../../mocks/data';
+import { addItem } from '../../../state/cart/cart.actions';
+import * as P from '../../../state/products/products.actions';
+import * as ProductSelectors from '../../../state/products/products.selectors';
+import { Product } from '../../../../mocks/data';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -13,10 +13,10 @@ import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { selectCartItems } from '../../state/cart/cart.selectors';
+import { selectCartItems } from '../../../state/cart/cart.selectors';
 
 @Component({
-  selector: 'app-product-details-page',
+  selector: 'product-details-page',
   standalone: true,
   imports: [CommonModule, FormsModule, MatButtonModule, MatCardModule, MatChipsModule, MatInputModule, MatSnackBarModule],
   templateUrl: './product-details-page.component.html'

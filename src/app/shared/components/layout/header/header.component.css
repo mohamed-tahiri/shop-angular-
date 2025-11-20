@@ -1,0 +1,13 @@
+.search-field .mat-mdc-form-field-flex {
+  height: 40px !important; /* Hauteur fixe */
+  align-items: center !important;
+}
+
+.search-field .mat-mdc-text-field-wrapper {
+  height: 40px !important;
+}
+
+.search-field input {
+  height: 40px !important;
+  padding: 0 8px !important;
+}

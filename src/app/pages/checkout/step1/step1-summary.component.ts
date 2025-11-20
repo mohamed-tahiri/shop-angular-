@@ -3,14 +3,14 @@ import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { selectCartItems, selectCartTotal, selectCartDiscount } from '../../state/cart/cart.selectors';
-import { applyCoupon, removeCoupon } from '../../state/cart/cart.actions';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { CartItem } from '../../state/cart/cart.model';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { selectCartDiscount, selectCartItems, selectCartTotal } from '../../../state/cart/cart.selectors';
+import { CartItem } from '../../../state/cart/cart.model';
+import { applyCoupon, removeCoupon } from '../../../state/cart/cart.actions';
 
 @Component({
   selector: 'app-step1-summary',

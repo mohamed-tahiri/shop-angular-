@@ -3,7 +3,7 @@ import { moduleMetadata } from '@storybook/angular';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { CartItem } from '../app/state/cart/cart.model';
-import { CartItemComponent } from '../app/components/card/cart-item.component';
+import { CartItemComponent } from '../app/shared/components/card/cart-item.component';
 
 const sampleItem: CartItem = {
     id: 1,

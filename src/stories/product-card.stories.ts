@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/angular';
-import { ProductCardComponent } from '../app/components/product-card/product-card.component';
 import { moduleMetadata } from '@storybook/angular';
 import { MatCardModule } from '@angular/material/card';
 import { Product } from '../mocks/data';
+import { ProductCardComponent } from '../app/shared/components/product-card/product-card.component';
 
 const sampleProduct: Product = {
   id: 1,
