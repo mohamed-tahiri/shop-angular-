@@ -9,10 +9,10 @@ import { CartItem } from '../../../state/cart/cart.model';
   standalone: true,
   imports: [CommonModule, FormsModule, MatButtonModule],
   template: `
-    <div class="flex items-center justify-between mb-4 p-3 border rounded-lg bg-white shadow-sm">
-      
+    <div class="flex flex-col sm:flex-row items-center justify-between p-4 mb-4 bg-white rounded-lg shadow hover:shadow-md transition">
+
       <!-- Image produit -->
-      <div class="w-16 h-16 flex-shrink-0 mr-4">
+      <div class="w-20 h-20 flex-shrink-0 mr-4">
         <img
           *ngIf="item.imageUrl; else noImage"
           [src]="item.imageUrl"
@@ -27,34 +27,33 @@ import { CartItem } from '../../../state/cart/cart.model';
       </div>
 
       <!-- Infos produit -->
-      <div class="flex-1">
-        <p class="font-semibold text-gray-900">{{ item.name }}</p>
-        <p class="text-sm text-gray-500">Price: {{ item.price | currency:'EUR' }}</p>
-        <p
-          class="text-sm"
-          [ngClass]="item.stock && item.quantity > item.stock ? 'text-red-600' : 'text-gray-500'"
-        >
-          Stock: {{ item.stock || 'N/A' }}
+      <div class="flex-1 flex flex-col gap-1">
+        <p class="font-semibold text-gray-900 line-clamp-2">{{ item.name }}</p>
+        <p class="text-sm text-gray-600">Price: {{ item.price | currency:'EUR' }}</p>
+        <p class="text-sm text-gray-500">
+          Stock: <span [ngClass]="item.stock && item.quantity > item.stock ? 'text-red-600 font-semibold' : 'text-gray-500'">
+            {{ item.stock || 'N/A' }}
+          </span>
         </p>
-        <p *ngIf="item.stock && item.quantity > item.stock" class="text-red-600 text-sm">
+        <p *ngIf="item.stock && item.quantity > item.stock" class="text-red-600 text-sm font-medium">
           Exceeds stock!
         </p>
       </div>
 
       <!-- Quantité & actions -->
-      <div class="flex flex-col items-end space-y-2">
+      <div class="flex flex-col items-end mt-3 sm:mt-0 space-y-2">
         <input
           type="number"
           [value]="item.quantity"
           [max]="item.stock || 100"
           min="1"
           (input)="qtyChange.emit({ id: item.id, quantity: $any($event.target).value })"
-          class="border px-2 py-1 w-16 rounded text-center"
+          class="border px-2 py-1 w-20 rounded text-center focus:outline-none focus:ring-2 focus:ring-blue-400"
         />
 
         <button
           (click)="remove.emit(item.id)"
-          class="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 transition"
+          class="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 transition shadow-sm"
         >
           Remove
         </button>
