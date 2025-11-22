@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { JsonPipe } from '@angular/common';
+import { JsonPipe, NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 
@@ -19,31 +19,30 @@ interface Paginated<T> {
 @Component({
   standalone: true,
   selector: 'app-dev-products',
-  imports: [JsonPipe, FormsModule, RouterLink],
+  imports: [JsonPipe, FormsModule, RouterLink, NgIf],
   template: `
-    <section class="mx-auto max-w-4xl px-4 py-10">
-      <nav class="mb-4 flex gap-3 text-sm">
-        <button type="button" routerLink="/dev" class="text-blue-600 hover:underline">
+    <section class="mx-auto max-w-4xl px-6 py-16 space-y-6">
+      <!-- Navigation -->
+      <nav class="flex gap-4 text-sm text-blue-600">
+        <button type="button" routerLink="/dev" class="hover:underline">
           ← Dev index
         </button>
-        <button type="button" routerLink="/" class="text-blue-600 hover:underline">Accueil</button>
-        <button
-          type="button"
-          routerLink="/dev/products/1/rating"
-          class="text-blue-600 hover:underline"
-        >
+        <button type="button" routerLink="/" class="hover:underline">Accueil</button>
+        <button type="button" routerLink="/dev/products/1/rating" class="hover:underline">
           Voir rating #1
         </button>
       </nav>
 
-      <h2 class="text-2xl font-semibold">GET /api/products/</h2>
+      <!-- Title -->
+      <h2 class="text-3xl font-semibold text-gray-900">GET /api/products/</h2>
 
+      <!-- Form -->
       <form
         class="mt-4 grid grid-cols-2 gap-3 md:grid-cols-6"
         (submit)="$event.preventDefault(); load()"
       >
-        <label class="text-sm"
-          >page
+        <label class="text-sm">
+          page
           <input
             class="mt-1 w-full rounded border px-2 py-1"
             type="number"
@@ -51,8 +50,8 @@ interface Paginated<T> {
             name="page"
           />
         </label>
-        <label class="text-sm"
-          >page_size
+        <label class="text-sm">
+          page_size
           <input
             class="mt-1 w-full rounded border px-2 py-1"
             type="number"
@@ -60,8 +59,8 @@ interface Paginated<T> {
             name="pageSize"
           />
         </label>
-        <label class="text-sm"
-          >min_rating
+        <label class="text-sm">
+          min_rating
           <input
             class="mt-1 w-full rounded border px-2 py-1"
             type="number"
@@ -70,8 +69,8 @@ interface Paginated<T> {
             name="minRating"
           />
         </label>
-        <label class="text-sm md:col-span-2"
-          >ordering
+        <label class="text-sm md:col-span-2">
+          ordering
           <input
             class="mt-1 w-full rounded border px-2 py-1"
             type="text"
@@ -82,7 +81,9 @@ interface Paginated<T> {
         </label>
         <div class="flex items-end">
           <button
-            class="rounded-lg bg-blue-600 px-3 py-2 text-white hover:bg-blue-700"
+            type="button"
+            class="rounded-2xl bg-blue-600 px-4 py-2 text-white font-medium shadow-sm
+                   hover:bg-blue-700 transition-all duration-200"
             (click)="load()"
           >
             Fetch
@@ -90,13 +91,18 @@ interface Paginated<T> {
         </div>
       </form>
 
-      @if (resp(); as r) {
-        <div class="mt-4 text-sm text-gray-600">count: {{ r.count }}</div>
-        <pre class="mt-2 rounded bg-gray-50 p-3 text-sm overflow-auto">{{ r | json }}</pre>
-      }
-      @if (err()) {
-        <p class="mt-2 text-sm text-red-600">{{ err() }}</p>
-      }
+      <!-- Response -->
+      <div *ngIf="resp()" class="mt-6">
+        <div class="text-sm text-gray-600 mb-2">Count: {{ resp()?.count }}</div>
+        <pre class="rounded-2xl bg-gray-50 p-4 text-sm shadow-sm overflow-auto">
+{{ resp() | json }}
+        </pre>
+      </div>
+
+      <!-- Error -->
+      <div *ngIf="err()" class="mt-4 text-red-600 font-medium">
+        {{ err() }}
+      </div>
     </section>
   `,
 })

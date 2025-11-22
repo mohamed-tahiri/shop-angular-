@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { JsonPipe } from '@angular/common';
+import { JsonPipe, NgIf } from '@angular/common';
 import { RouterLink } from '@angular/router';
 
 interface TokenResponse {
@@ -13,43 +13,62 @@ interface RefreshResponse {
 @Component({
   standalone: true,
   selector: 'app-dev-auth',
-  imports: [JsonPipe, RouterLink],
+  imports: [JsonPipe, RouterLink, NgIf], // <-- Ajout de NgIf ici
   template: `
-    <section class="mx-auto max-w-3xl px-4 py-10">
-      <nav class="mb-4 flex gap-3 text-sm">
-        <button type="button" routerLink="/dev" class="text-blue-600 hover:underline">
+    <section class="mx-auto max-w-4xl px-6 py-16 space-y-6">
+      <!-- Navigation -->
+      <nav class="flex gap-4 text-sm text-blue-600">
+        <button type="button" routerLink="/dev" class="hover:underline">
           ← Dev index
         </button>
-        <button type="button" routerLink="/" class="text-blue-600 hover:underline">Accueil</button>
+        <button type="button" routerLink="/" class="hover:underline">
+          Accueil
+        </button>
       </nav>
 
-      <h2 class="text-2xl font-semibold">/api/auth/token/ & /api/auth/token/refresh/</h2>
-      <div class="mt-4 flex gap-3">
+      <!-- Page Title -->
+      <h2 class="text-3xl font-semibold text-gray-900">
+        /api/auth/token/ & /api/auth/token/refresh/
+      </h2>
+
+      <!-- Action Buttons -->
+      <div class="flex gap-4 mt-4">
         <button
-          class="rounded-lg bg-blue-600 px-3 py-2 text-white hover:bg-blue-700"
+          class="flex-1 rounded-2xl bg-blue-600 px-5 py-3 font-medium text-white
+                 shadow-sm hover:bg-blue-700 transition-all duration-200"
           (click)="login()"
         >
           POST token
         </button>
         <button
-          class="rounded-lg bg-emerald-600 px-3 py-2 text-white hover:bg-emerald-700"
+          class="flex-1 rounded-2xl bg-emerald-600 px-5 py-3 font-medium text-white
+                 shadow-sm hover:bg-emerald-700 transition-all duration-200"
           (click)="refresh()"
         >
           POST refresh
         </button>
       </div>
 
-      @if (loginResp(); as r) {
-        <h3 class="mt-4 font-medium">Login response</h3>
-        <pre class="rounded bg-gray-50 p-3 text-sm">{{ r | json }}</pre>
-      }
-      @if (refreshResp(); as rr) {
-        <h3 class="mt-4 font-medium">Refresh response</h3>
-        <pre class="rounded bg-gray-50 p-3 text-sm">{{ rr | json }}</pre>
-      }
-      @if (err()) {
-        <p class="mt-2 text-sm text-red-600">{{ err() }}</p>
-      }
+      <!-- Login Response -->
+      <div *ngIf="loginResp()" class="mt-6">
+        <h3 class="text-lg font-medium text-gray-900">Login Response</h3>
+        <pre class="rounded-2xl bg-gray-50 p-4 text-sm shadow-sm overflow-x-auto">
+          {{ loginResp() | json }}
+        </pre>
+      </div>
+
+      <!-- Refresh Response -->
+      <div *ngIf="refreshResp()" class="mt-6">
+        <h3 class="text-lg font-medium text-gray-900">Refresh Response</h3>
+        <pre class="rounded-2xl bg-gray-50 p-4 text-sm shadow-sm overflow-x-auto">
+          {{ refreshResp() | json }}
+        </pre>
+      </div>
+
+      <!-- Error Message -->
+      <div *ngIf="err()" class="mt-4 text-red-600 font-medium">
+        {{ err() }}
+      </div>
     </section>
   `,
 })

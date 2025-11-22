@@ -6,33 +6,67 @@ import { RouterLink } from '@angular/router';
   selector: 'app-dev-index',
   imports: [RouterLink],
   template: `
-    <section class="mx-auto max-w-3xl px-4 py-10 space-y-4">
-      <h2 class="text-2xl font-semibold">Dev / MSW — Index</h2>
-      <nav class="grid gap-2">
+    <section class="mx-auto max-w-4xl px-6 py-16 space-y-8">
+      <div class="space-y-2">
+        <h2 class="text-3xl font-semibold text-gray-900">Dev / MSW — Index</h2>
+        <p class="text-gray-500">
+          Accédez rapidement aux endpoints de test et à la documentation interne.
+        </p>
+      </div>
+
+      <nav class="grid sm:grid-cols-1 gap-4">
+        <!-- Card Auth -->
         <button
           type="button"
           routerLink="/dev/auth"
-          class="rounded border px-3 py-2 text-left hover:bg-gray-50"
+          class="
+            w-full rounded-2xl border border-gray-200 bg-white px-6 py-4 text-left
+            shadow-sm hover:shadow-md hover:border-gray-300 transition-all duration-200
+          "
         >
-          Auth: POST /api/auth/token/ (+refresh)
+          <h3 class="font-medium text-gray-900">Auth</h3>
+          <p class="text-gray-500 text-sm mt-1">
+            POST /api/auth/token/ (+refresh)
+          </p>
         </button>
+
+        <!-- Card Products -->
         <button
           type="button"
           routerLink="/dev/products"
-          class="rounded border px-3 py-2 text-left hover:bg-gray-50"
+          class="
+            w-full rounded-2xl border border-gray-200 bg-white px-6 py-4 text-left
+            shadow-sm hover:shadow-md hover:border-gray-300 transition-all duration-200
+          "
         >
-          Products: GET /api/products/
+          <h3 class="font-medium text-gray-900">Products</h3>
+          <p class="text-gray-500 text-sm mt-1">
+            GET /api/products/
+          </p>
         </button>
+
+        <!-- Card Product Rating -->
         <button
           type="button"
           routerLink="/dev/products/1/rating"
-          class="rounded border px-3 py-2 text-left hover:bg-gray-50"
+          class="
+            w-full rounded-2xl border border-gray-200 bg-white px-6 py-4 text-left
+            shadow-sm hover:shadow-md hover:border-gray-300 transition-all duration-200
+          "
         >
-          Product rating: GET /api/products/:id/rating/
+          <h3 class="font-medium text-gray-900">Product Rating</h3>
+          <p class="text-gray-500 text-sm mt-1">
+            GET /api/products/:id/rating/
+          </p>
         </button>
       </nav>
-      <div class="pt-2">
-        <button type="button" routerLink="/" class="text-blue-600 hover:underline">
+
+      <div class="pt-4 text-center">
+        <button
+          type="button"
+          routerLink="/"
+          class="text-blue-600 hover:underline font-medium"
+        >
           ← Retour accueil
         </button>
       </div>

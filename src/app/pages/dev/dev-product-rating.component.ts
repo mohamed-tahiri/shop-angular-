@@ -1,4 +1,4 @@
-import { JsonPipe } from '@angular/common';
+import { JsonPipe, NgIf } from '@angular/common';
 import { Component, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
@@ -12,24 +12,31 @@ interface RatingResponse {
 @Component({
   standalone: true,
   selector: 'app-dev-product-rating',
-  imports: [FormsModule, RouterLink, JsonPipe],
+  imports: [FormsModule, RouterLink, JsonPipe, NgIf],
   template: `
-    <section class="mx-auto max-w-3xl px-4 py-10">
-      <nav class="mb-4 flex gap-3 text-sm">
-        <button type="button" routerLink="/dev" class="text-blue-600 hover:underline">
+    <section class="mx-auto max-w-4xl px-6 py-16 space-y-6">
+      <!-- Navigation -->
+      <nav class="flex gap-4 text-sm text-blue-600">
+        <button type="button" routerLink="/dev" class="hover:underline">
           ← Dev index
         </button>
-        <button type="button" routerLink="/" class="text-blue-600 hover:underline">Accueil</button>
-        <button type="button" routerLink="/dev/products" class="text-blue-600 hover:underline">
+        <button type="button" routerLink="/" class="hover:underline">
+          Accueil
+        </button>
+        <button type="button" routerLink="/dev/products" class="hover:underline">
           Liste produits
         </button>
       </nav>
 
-      <h2 class="text-2xl font-semibold">GET /api/products/:id/rating/</h2>
+      <!-- Title -->
+      <h2 class="text-3xl font-semibold text-gray-900">
+        GET /api/products/:id/rating/
+      </h2>
 
-      <form class="mt-4 flex items-end gap-3" (submit)="$event.preventDefault(); load()">
-        <label class="text-sm"
-          >product id
+      <!-- Form -->
+      <form class="mt-4 flex items-end gap-4" (submit)="$event.preventDefault(); load()">
+        <label class="text-sm">
+          Product ID
           <input
             class="mt-1 w-28 rounded border px-2 py-1"
             type="number"
@@ -38,19 +45,27 @@ interface RatingResponse {
           />
         </label>
         <button
-          class="rounded-lg bg-blue-600 px-3 py-2 text-white hover:bg-blue-700"
+          type="button"
+          class="rounded-2xl bg-blue-600 px-4 py-2 text-white font-medium shadow-sm
+                 hover:bg-blue-700 transition-all duration-200"
           (click)="load()"
         >
           Fetch
         </button>
       </form>
 
-      @if (resp(); as r) {
-        <pre class="mt-4 rounded bg-gray-50 p-3 text-sm">{{ r | json }}</pre>
-      }
-      @if (err()) {
-        <p class="mt-2 text-sm text-red-600">{{ err() }}</p>
-      }
+      <!-- Response -->
+      <div *ngIf="resp()" class="mt-6">
+        <h3 class="text-lg font-medium text-gray-900">Rating Response</h3>
+        <pre class="rounded-2xl bg-gray-50 p-4 text-sm shadow-sm overflow-x-auto">
+{{ resp() | json }}
+        </pre>
+      </div>
+
+      <!-- Error -->
+      <div *ngIf="err()" class="mt-4 text-red-600 font-medium">
+        {{ err() }}
+      </div>
     </section>
   `,
 })
