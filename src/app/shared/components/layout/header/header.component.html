@@ -1,3 +1,4 @@
+<!-- header.component.html -->
 <mat-toolbar
   class="bg-white shadow flex justify-between items-center sticky top-0 z-10 px-4 md:px-6 py-3"
 >
@@ -12,20 +13,54 @@
   <!-- RIGHT SECTION -->
   <div class="flex items-center space-x-3 ml-auto">
     <ng-container *ngIf="isLoggedIn$ | async; else loginBtn">
-      <!-- SEARCH BAR (Tailwind) -->
-      <div class="hidden md:flex items-center">
-        <div class="relative w-48 md:w-64">
+      <!-- SEARCH BAR -->
+      <div class="hidden md:flex items-center relative">
+        <div
+          class="relative w-48 md:w-64 transition-all duration-300 ease-in-out focus-within:w-96"
+        >
           <input
             type="text"
+            [(ngModel)]="searchQuery"
             placeholder="Rechercher..."
             class="h-10 w-full pl-4 pr-10 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-500"
+            (input)="onSearch()"
           />
           <mat-icon
-            (click)="onSearch()"
             class="absolute right-2 top-1/2 -translate-y-1/2 text-gray-600 cursor-pointer hover:text-gray-800"
+            (click)="onSearch()"
+            >search</mat-icon
           >
-            search
-          </mat-icon>
+
+          <!-- Dropdown résultats -->
+          <div
+            *ngIf="searchResults.length"
+            class="absolute bg-white shadow-lg rounded mt-1 w-full z-20 max-h-64 overflow-auto"
+          >
+            <div
+              *ngFor="let product of searchResults"
+              class="flex items-center gap-3 px-3 py-2 text-[0.875rem] hover:bg-gray-100 cursor-pointer"
+              (click)="goToProduct(product.id)"
+            >
+              <img
+                *ngIf="product.image_url; else noImage"
+                [src]="product.image_url"
+                alt="{{ product.name }}"
+                class="w-10 h-10 object-cover rounded"
+              />
+              <ng-template #noImage>
+                <div
+                  class="w-10 h-10 flex items-center justify-center bg-gray-200 text-gray-400 text-xs rounded"
+                >
+                  No Img
+                </div>
+              </ng-template>
+
+              <div class="flex-1">
+                <p class="font-medium text-gray-800 truncate">{{ product.name }}</p>
+                <p class="text-gray-500 text-xs">{{ product.price | currency: 'EUR' }}</p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -37,7 +72,6 @@
       >
         Produits
       </button>
-
       <button
         mat-button
         (click)="goToRatings()"
@@ -52,19 +86,93 @@
         (click)="goToWishlist()"
         class="text-gray-800 relative hidden md:flex"
       >
-        <mat-icon>favorite_border</mat-icon>
+        <mat-icon [matBadge]="(wishlistCount$ | async) || '0'" matBadgeColor="warn">
+          favorite_border
+        </mat-icon>
       </button>
 
       <!-- Cart -->
-      <button mat-icon-button (click)="goToCart()" class="text-gray-800 relative">
-        <ng-container *ngIf="cartCount$ | async as count">
-          <mat-icon matBadge="{{ count }}" matBadgeColor="warn" [matBadgeHidden]="count === 0">
+      <div
+        class="relative"
+        (mouseenter)="showCartPreview = true"
+        (mouseleave)="showCartPreview = false"
+      >
+        <button mat-icon-button (click)="goToCart()">
+          <mat-icon [matBadge]="(cartCount$ | async) || '0'" matBadgeColor="warn">
             shopping_cart
           </mat-icon>
-        </ng-container>
-      </button>
+        </button>
 
-      <!-- Déconnexion (icon only) -->
+        <!-- Cart preview modal -->
+        <div
+          *ngIf="showCartPreview"
+          class="absolute text-[.8rem] right-0 mt-2 w-80 bg-white shadow-xl border border-gray-200 rounded-lg z-50"
+        >
+          <ng-container *ngIf="cartItems$ | async as cartItems">
+            <!-- Si le panier contient des articles -->
+            <ng-container *ngIf="cartItems.length > 0; else emptyCart">
+              <div class="p-4 max-h-96 overflow-auto space-y-3">
+                <div
+                  *ngFor="let item of cartItems"
+                  class="flex items-center gap-3 p-2 hover:bg-gray-50 rounded transition-colors"
+                >
+                  <img
+                    [src]="item.imageUrl"
+                    alt="{{ item.name }}"
+                    class="w-14 h-14 object-cover rounded-md border border-gray-100"
+                  />
+                  <div class="flex-1 flex flex-col">
+                    <p class="text-gray-800 font-semibold truncate">{{ item.name }}</p>
+                    <p class="text-gray-500 text-sm">
+                      {{ item.quantity }} x {{ item.price | currency: 'EUR' }}
+                    </p>
+                  </div>
+                  <button
+                    (click)="remove(item.id)"
+                    class="text-red-500 hover:text-red-700 font-bold text-xl"
+                    aria-label="Remove item"
+                  >
+                    &times;
+                  </button>
+                </div>
+              </div>
+
+              <!-- Total -->
+              <div
+                class="border-t border-gray-200 p-4 flex justify-between items-center bg-gray-50"
+              >
+                <span class="font-medium text-gray-700">Total:</span>
+                <span class="font-bold text-gray-900">{{
+                  cartTotal$ | async | currency: 'EUR'
+                }}</span>
+              </div>
+
+              <!-- Actions -->
+              <div class="p-4 flex justify-between">
+                <button
+                  class="flex-1 mr-2 bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded font-medium transition"
+                  (click)="goToCart()"
+                >
+                  View Cart
+                </button>
+                <button
+                  class="flex-1 ml-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded font-medium transition"
+                  (click)="checkout()"
+                >
+                  Checkout
+                </button>
+              </div>
+            </ng-container>
+
+            <!-- Panier vide -->
+            <ng-template #emptyCart>
+              <div class="p-6 text-center text-gray-500">Votre panier est vide</div>
+            </ng-template>
+          </ng-container>
+        </div>
+      </div>
+
+      <!-- Déconnexion -->
       <button mat-icon-button (click)="onLogout()" class="text-gray-800 hidden md:flex">
         <mat-icon>logout</mat-icon>
       </button>

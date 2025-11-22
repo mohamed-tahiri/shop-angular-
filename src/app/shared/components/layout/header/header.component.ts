@@ -1,9 +1,14 @@
-import { Component } from '@angular/core';
+// header.component.ts
+import { Component, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms'; // Nécessaire pour les champs de formulaire
+import { Observable, map } from 'rxjs';
+import { selectIsLoggedIn } from '../../../../state/auth/auth.selectors';
+import { selectCartCount, selectCartItems, selectCartTotal } from '../../../../state/cart/cart.selectors';
+import { selectWishlistCount } from '../../../../state/wishlist/wishlist.selectors';
+import { logout } from '../../../../state/auth/auth.actions';
+import { Product } from '../../../../../mocks/data';
+import { selectProductsList } from '../../../../state/products/products.selectors';
 
 // Modules Angular Material
 import { MatToolbarModule } from '@angular/material/toolbar'; 
@@ -12,18 +17,12 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field'; 
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatIconModule } from '@angular/material/icon';
-
-// NgRx Selectors & Actions (Ajustez les chemins selon votre structure)
-import { selectIsLoggedIn } from '../../../../state/auth/auth.selectors';
-import { selectCartCount } from '../../../../state/cart/cart.selectors';
-import { logout } from '../../../../state/auth/auth.actions';
-
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { removeItem } from '../../../../state/cart/cart.actions';
 
 @Component({
   selector: 'app-header',
-  templateUrl: './header.component.html',
-  styleUrls: ['./header.component.css'], 
-  standalone: true,
   imports: [
     CommonModule, 
     FormsModule,
@@ -33,27 +32,62 @@ import { logout } from '../../../../state/auth/auth.actions';
     MatInputModule, 
     MatButtonModule, 
     MatToolbarModule
-  ]
+  ],
+  templateUrl: './header.component.html',
+  styleUrls: ['./header.component.css'],
+  standalone: true,
 })
 export class HeaderComponent {
-  isLoggedIn$: Observable<boolean>;
-  cartCount$: Observable<number>;
+  private store = inject(Store);
+  public router = inject(Router);
 
-  constructor(private store: Store, private router: Router) {
-    // Initialisation des Observables NgRx
-    this.isLoggedIn$ = this.store.select(selectIsLoggedIn);
-    this.cartCount$ = this.store.select(selectCartCount);
-  }
+  isLoggedIn$: Observable<boolean> = this.store.select(selectIsLoggedIn);
+  cartCount$: Observable<number> = this.store.select(selectCartCount);
+  wishlistCount$: Observable<number> = this.store.select(selectWishlistCount);
 
-  // Méthodes de Navigation et d'Action
+  cartItems$ = this.store.select(selectCartItems);
+  cartTotal$ = this.store.select(selectCartTotal);
+
+  showCartPreview = false; // pour le hover
+
+  searchQuery: string = '';
+  searchResults: Product[] = [];
+
+  // Navigation
   goHome() { this.router.navigate(['/']); }
   goToProducts() { this.router.navigate(['/app/shop/products']); }
   onLogin() { this.router.navigate(['/app/login']); }
   onLogout() { this.store.dispatch(logout()); }
   goToCart() { this.router.navigate(['/app/shop/cart']); }
-  goToRatings() { this.router.navigate(['/app/shop/products/rating'])}
+  goToRatings() { this.router.navigate(['/app/shop/products/rating']); }
   goToWishlist() { this.router.navigate(['/app/shop/wishlist']); }
+  checkout() { this.router.navigate(['/app/shop/checkout/summary']); }
+
+  // Cart actions
+  remove(productId: number) {
+    this.store.dispatch(removeItem({ productId }));
+  }
+
+  // Recherche produits
   onSearch() {
-    console.log('Recherche déclenchée');
+    if (!this.searchQuery.trim()) {
+      this.searchResults = [];
+      return;
+    }
+
+    this.store.select(selectProductsList)
+      .pipe(
+        map(products => products
+          .filter(p => p.name.toLowerCase().includes(this.searchQuery.toLowerCase()))
+          .slice(0, 3)
+        )
+      )
+      .subscribe(results => this.searchResults = results);
+  }
+
+  goToProduct(productId: number) {
+    this.router.navigate(['/app/shop/products', productId]);
+    this.searchResults = [];
+    this.searchQuery = '';
   }
 }
