@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { Observable } from 'rxjs';
 import { selectCartItems, selectCartTotal } from '../state/cart/cart.selectors';
 import { updateQuantity, removeItem, clearCart } from '../state/cart/cart.actions';
@@ -15,34 +15,51 @@ import { CartSummaryComponent } from '../shared/components/card/cart-summary.com
   standalone: true,
   imports: [CommonModule, FormsModule, CartItemComponent, CartSummaryComponent],
   template: `
-  <div class="p-6 bg-gray-50 min-h-screen">
+  <div class="min-h-screen bg-gray-50 p-6">
     <div class="max-w-6xl mx-auto space-y-8">
-      <h2 class="text-2xl font-bold mb-4">Your Cart</h2>
 
-      <div *ngIf="(cartItems$ | async)?.length; else emptyCart">
-        <app-cart-item *ngFor="let item of cartItems$ | async"
-          [item]="item"
-          (qtyChange)="updateQty($event)"
-          (remove)="remove($event)">
-        </app-cart-item>
+      <h2 class="text-3xl font-bold text-gray-900">Your Cart</h2>
 
+      <!-- Cart items -->
+      <div *ngIf="(cartItems$ | async)?.length; else emptyCart" class="space-y-6">
+
+        <div class="grid gap">
+          <app-cart-item *ngFor="let item of cartItems$ | async"
+            [item]="item"
+            (qtyChange)="updateQty($event)"
+            (remove)="remove($event)">
+          </app-cart-item>
+        </div>
+
+        <!-- Summary & Actions -->
         <app-cart-summary 
           [total]="(cartTotal$ | async) || 0"
           (clear)="clear()"
           (checkout)="checkout()">
         </app-cart-summary>
+
       </div>
 
+      <!-- Empty cart -->
       <ng-template #emptyCart>
-        <p>Your cart is empty.</p>
+        <div class="text-center py-16">
+          <p class="text-gray-500 text-lg">Your cart is empty.</p>
+          <button
+            class="mt-4 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-medium shadow-sm"
+            (click)="router.navigate(['/app/shop/products'])"
+          >
+            Continue Shopping
+          </button>
+        </div>
       </ng-template>
+
     </div>
   </div>
   `
 })
 export class CartPageComponent {
   private store = inject(Store);
-  private router = inject(Router); // ✅ inject Router pour navigation
+  public router = inject(Router);
 
   cartItems$: Observable<CartItem[]> = this.store.select(selectCartItems);
   cartTotal$: Observable<number> = this.store.select(selectCartTotal);
@@ -63,7 +80,6 @@ export class CartPageComponent {
   }
 
   checkout() {
-    // Redirige vers l'étape 1 du checkout
     this.router.navigate(['/app/shop/checkout/summary']);
   }
 }
