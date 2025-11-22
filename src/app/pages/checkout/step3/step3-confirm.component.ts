@@ -13,16 +13,22 @@ import { clearCart } from '../../../state/cart/cart.actions';
   imports: [CommonModule, MatCardModule, MatButtonModule],
   template: `
   <div class="p-6 bg-gray-50 min-h-screen">
-    <div class="max-w-6xl mx-auto space-y-8">
+    <div class="max-w-5xl mx-auto space-y-8">
 
       <h2 class="text-3xl font-bold text-gray-800 mb-6">✅ Confirm Your Order</h2>
 
-      <mat-card class="p-6 shadow-lg rounded-lg space-y-4">
-        <p class="text-gray-700 text-lg">Thank you for shopping with us! Please review your order details and confirm to complete the purchase.</p>
+      <mat-card class="p-6 shadow-lg rounded-lg space-y-6 bg-white">
+        <p class="text-gray-700 text-lg">
+          Thank you for shopping with us! Please review your order details and confirm to complete the purchase.
+        </p>
 
         <div class="flex justify-between mt-6">
-          <button mat-stroked-button color="warn" (click)="back()" class="transition hover:scale-105">Back</button>
-          <button mat-raised-button color="primary" (click)="confirm()" class="transition hover:scale-105">Confirm Order</button>
+          <button mat-stroked-button color="warn" (click)="back()" class="px-4 py-2 rounded hover:scale-105 transition transform">
+            Back
+          </button>
+          <button mat-raised-button color="primary" (click)="confirm()" class="px-6 py-2 rounded hover:scale-105 transition transform">
+            Confirm Order
+          </button>
         </div>
       </mat-card>
 

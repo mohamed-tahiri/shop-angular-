@@ -18,46 +18,58 @@ import { applyCoupon, removeCoupon } from '../../../state/cart/cart.actions';
   imports: [CommonModule, MatCardModule, MatButtonModule, FormsModule, ReactiveFormsModule],
   template: `
   <div class="p-6 bg-gray-50 min-h-screen">
-    <div class="max-w-6xl mx-auto space-y-8">
+    <div class="max-w-5xl mx-auto space-y-8">
 
-      <h2 class="text-3xl font-bold text-gray-800 mb-6">🛒 Your Order Summary</h2>
+      <!-- Header -->
+      <h2 class="text-3xl font-bold text-gray-800 mb-6">🛒 Order Summary</h2>
 
+      <!-- Cart Items -->
       <div *ngIf="cartItems$ | async as items; else emptyCart" class="space-y-6">
-
-        <mat-card *ngFor="let item of items" class="p-4 flex justify-between items-center shadow hover:shadow-lg transition-shadow rounded-lg">
-          <div class="flex items-center gap-4">
-            <img [src]="item.imageUrl" alt="{{item.name}}" class="w-20 h-20 object-cover rounded-md"/>
+        <mat-card *ngFor="let item of items" class="flex flex-col sm:flex-row justify-between items-center p-4 shadow rounded-lg hover:shadow-lg transition-transform transform hover:scale-[1.02]">
+          
+          <!-- Left: Image + Info -->
+          <div class="flex items-center gap-4 w-full sm:w-2/3">
+            <img [src]="item.imageUrl" alt="{{ item.name }}" class="w-20 h-20 object-cover rounded-md shadow-sm"/>
             <div class="space-y-1">
               <p class="font-semibold text-gray-700">{{ item.name }}</p>
               <p class="text-gray-500">Quantity: {{ item.quantity }}</p>
             </div>
           </div>
-          <span class="font-bold text-gray-800">{{ item.price * item.quantity | currency:'EUR' }}</span>
+
+          <!-- Right: Price -->
+          <div class="mt-3 sm:mt-0 sm:text-right w-full sm:w-1/3 font-bold text-gray-800 text-lg">
+            {{ item.price * item.quantity | currency:'EUR' }}
+          </div>
         </mat-card>
 
-        <form [formGroup]="couponForm" class="flex gap-2 items-center">
+        <!-- Coupon Form -->
+        <form [formGroup]="couponForm" class="flex flex-col sm:flex-row gap-2 items-center mt-4">
           <input formControlName="code" placeholder="Coupon code"
                  class="border px-3 py-2 rounded flex-1 focus:ring-2 focus:ring-blue-400 transition"/>
           <button mat-stroked-button color="primary" type="button" (click)="applyCouponCode()">Apply</button>
           <button mat-stroked-button color="warn" type="button" (click)="removeCouponCode()">Remove</button>
         </form>
-        <div *ngIf="couponForm.controls['code'].invalid && couponForm.controls['code'].touched" class="text-red-500 mt-1">
+        <div *ngIf="couponForm.controls['code'].invalid && couponForm.controls['code'].touched" class="text-red-500 mt-1 text-sm">
           Please enter a valid coupon code
         </div>
 
-        <div class="text-right font-semibold space-y-1 mt-4">
-          <div>Total: {{ cartTotal$ | async | currency:'EUR' }}</div>
-          <div>Discount: {{ cartDiscount$ | async | currency:'EUR' }}</div>
-          <div class="text-lg text-blue-600 font-bold">Grand Total: {{ (cartTotal$ | async)! - (cartDiscount$ | async)! | currency:'EUR' }}</div>
+        <!-- Totals -->
+        <div class="text-right space-y-1 mt-4">
+          <div class="text-gray-700">Subtotal: {{ cartTotal$ | async | currency:'EUR' }}</div>
+          <div class="text-gray-500">Discount: {{ cartDiscount$ | async | currency:'EUR' }}</div>
+          <div class="text-xl text-blue-600 font-bold">Grand Total: {{ (cartTotal$ | async)! - (cartDiscount$ | async)! | currency:'EUR' }}</div>
         </div>
 
-        <div class="flex justify-end">
-          <button mat-raised-button color="primary" class="transition transform hover:scale-105" (click)="next()">Proceed to Shipping</button>
+        <!-- Proceed Button -->
+        <div class="flex justify-end mt-6">
+          <button mat-raised-button color="primary" class="px-6 py-3 font-medium rounded-lg shadow hover:scale-105 transition transform"
+                  (click)="next()">Proceed to Shipping</button>
         </div>
       </div>
 
+      <!-- Empty Cart -->
       <ng-template #emptyCart>
-        <p class="text-gray-400 text-lg italic">Your cart is currently empty. Add some products to continue! 🛍️</p>
+        <p class="text-gray-400 text-lg italic text-center mt-10">Your cart is currently empty. Add some products to continue! 🛍️</p>
       </ng-template>
 
     </div>
