@@ -17,6 +17,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { Product } from '../../../mocks/data';
 import { ProductsListComponent } from '../../shared/components/products-list/products-list.component';
+import { PageWrapperComponent } from '../../shared/components/UI/page-wrappe/page-wrapper.component';
 
 @Component({
   selector: 'app-products-page',
@@ -32,6 +33,7 @@ import { ProductsListComponent } from '../../shared/components/products-list/pro
     MatIconModule,
     MatProgressSpinnerModule,
     ProductsListComponent,
+    PageWrapperComponent
   ],
   templateUrl: './products.component.html',
 })

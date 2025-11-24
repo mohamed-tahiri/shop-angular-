@@ -1,22 +1,22 @@
 import { Routes } from '@angular/router';
-import { HomeComponent } from './pages/home.component';
-import { AppPlaceholderComponent } from './pages/app-placeholder.component';
+import { HomeComponent } from './pages/home/home.component';
+import { AppPlaceholderComponent } from './pages/home/app-placeholder.component';
 import { LoginPageComponent } from './pages/auth/login/login.component';
 import { ProductsPageComponent } from './pages/products/products.component';
 
 // Nouveaux composants
-import { CartPageComponent } from './pages/cart-page.component';
-import { Step2AddressComponent } from './pages/checkout/step2/step2-address.component';
+import { CartPageComponent } from './pages/cart/cart.component';
+import { Step2AddressComponent } from './pages/checkout/step2-address.component';
 import { AuthGuard } from './core/guards/auth.guard';
-import { WishlistPageComponent } from './pages/wishlist-page.component';
-import { DevIndexComponent } from './pages/dev/dev-index.component';
-import { DevAuthComponent } from './pages/dev/dev-auth.component';
-import { DevProductsComponent } from './pages/dev/dev-products.component';
-import { DevProductRatingComponent } from './pages/dev/dev-product-rating.component';
-import { Step1SummaryComponent } from './pages/checkout/step1/step1-summary.component';
-import { Step3ConfirmComponent } from './pages/checkout/step3/step3-confirm.component';
+import { WishlistPageComponent } from './pages/wishlist/wishlist.component';
+import { DevIndexComponent } from './pages/dev-tools/dev-index.component';
+import { DevAuthComponent } from './pages/dev-tools/dev-auth.component';
+import { DevProductsComponent } from './pages/dev-tools/dev-products.component';
+import { DevProductRatingComponent } from './pages/dev-tools/dev-product-rating.component';
+import { Step1SummaryComponent } from './pages/checkout/step1-summary.component';
+import { Step3ConfirmComponent } from './pages/checkout/step3-confirm.component';
 import { ProductRatingPageComponent } from './pages/products/rating/product-rating.component';
-import { ProductDetailsPageComponent } from './pages/products/details/product-details-page.component';
+import { ProductDetailsPageComponent } from './pages/products/details/product-details.component';
 import { CheckoutGuard } from './core/guards/checkout.guard';
 
 

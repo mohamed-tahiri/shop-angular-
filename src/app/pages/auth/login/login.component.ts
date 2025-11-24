@@ -9,11 +9,12 @@ import { CommonModule } from '@angular/common';
 import { LoginFormComponent } from '../../../shared/components/login-form/login-form.component';
 import { MatCardModule } from '@angular/material/card'; // <-- CE MODULE MANQUAIT
 import { MatButtonModule } from '@angular/material/button';
+import { PageWrapperComponent } from '../../../shared/components/UI/page-wrappe/page-wrapper.component';
 
 @Component({
   standalone: true,
   selector: 'app-login-page',
-  imports: [LoginFormComponent, CommonModule, MatCardModule, MatButtonModule],
+  imports: [LoginFormComponent, CommonModule, MatCardModule, MatButtonModule, PageWrapperComponent],
   templateUrl: './login.component.html',
 })
 export class LoginPageComponent {

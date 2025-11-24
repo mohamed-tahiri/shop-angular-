@@ -4,7 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
 import { of } from 'rxjs';
 import { Product } from '../mocks/data';
-import { ProductDetailsPageComponent } from '../app/pages/products/details/product-details-page.component';
+import { ProductDetailsPageComponent } from '../app/pages/products/details/product-details.component';
 
 const sampleProduct: Product = {
   id: 18,

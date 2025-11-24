@@ -1,20 +1,22 @@
-<div class="min-h-screen flex flex-col justify-center items-center px-4">
-  <!-- Contenu du formulaire -->
-  <mat-card-content class="w-full max-w-md">
-    <app-login-form
-      (submitForm)="onSubmit($event)"
-      [loading]="(loading$ | async) ?? false"
-      [error]="error$ | async"
-    ></app-login-form>
-  </mat-card-content>
+<app-page-wrapper>
+  <section class="min-h-screen flex flex-col justify-center items-center">
+    <!-- Contenu du formulaire -->
+    <mat-card-content class="w-full max-w-md">
+      <app-login-form
+        (submitForm)="onSubmit($event)"
+        [loading]="(loading$ | async) ?? false"
+        [error]="error$ | async"
+      ></app-login-form>
+    </mat-card-content>
 
-  <!-- Actions supplémentaires -->
-  <mat-card-actions class="flex flex-col items-center mt-4 w-full max-w-md">
-    <button mat-button color="primary" class="text-sm">Mot de passe oublié ?</button>
+    <!-- Actions supplémentaires -->
+    <mat-card-actions class="flex flex-col items-center mt-4 w-full max-w-md">
+      <button mat-button color="primary" class="text-sm">Mot de passe oublié ?</button>
 
-    <div class="mt-4 text-gray-600 text-sm">
-      Pas encore inscrit ?
-      <button mat-button color="accent" class="font-semibold px-1">Créer un compte</button>
-    </div>
-  </mat-card-actions>
-</div>
+      <div class="mt-4 text-gray-600 text-sm">
+        Pas encore inscrit ?
+        <button mat-button color="accent" class="font-semibold px-1">Créer un compte</button>
+      </div>
+    </mat-card-actions>
+  </section>
+</app-page-wrapper>

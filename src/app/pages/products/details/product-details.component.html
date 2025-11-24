@@ -1,0 +1,68 @@
+<app-page-wrapper>
+  <section class="mx-auto max-w-5xl px-6 py-16 space-y-6">
+    <ng-container *ngIf="product$ | async as product; else loading">
+      <div class="grid md:grid-cols-2 gap-8">
+        <!-- Product Image -->
+        <img
+          [src]="product.image_url"
+          alt="{{ product.name }}"
+          class="w-full rounded-2xl border border-gray-200 shadow-sm object-cover max-h-96"
+        />
+
+        <!-- Product Details -->
+        <div class="space-y-4">
+          <h1 class="text-3xl font-semibold text-gray-900">{{ product.name }}</h1>
+
+          <!-- Rating -->
+          <p class="text-gray-600">
+            Rating: <span class="font-medium">{{ avgRating$ | async }}</span>
+          </p>
+
+          <!-- Price -->
+          <p class="text-2xl font-bold text-gray-800">${{ product.price.toFixed(2) }}</p>
+
+          <!-- Stock -->
+          <p [ngClass]="stockClass(product.stock)" class="font-medium">
+            Stock: {{ product.stock }}
+          </p>
+
+          <!-- Quantity & Add to Cart -->
+          <div class="flex items-center gap-3 mt-4">
+            <input
+              type="number"
+              [(ngModel)]="quantity"
+              min="1"
+              [max]="product.stock"
+              class="w-20 rounded border px-3 py-2 text-center"
+            />
+            <button
+              mat-flat-button
+              color="primary"
+              class="bg-blue-600 hover:bg-blue-700 text-white rounded-2xl px-6 py-2 font-medium shadow-sm"
+              (click)="addToCart(product)"
+            >
+              Ajouter au panier
+            </button>
+          </div>
+
+          <!-- Description -->
+          <p class="text-gray-700 mt-4">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+            incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+            exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
+            dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+            Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
+            mollit anim id est laborum.
+          </p>
+
+          <!-- Created at -->
+          <p class="text-sm text-gray-400">Ajouté le: {{ product.created_at | date: 'medium' }}</p>
+        </div>
+      </div>
+    </ng-container>
+
+    <ng-template #loading>
+      <p class="text-gray-500 text-center">Chargement du produit...</p>
+    </ng-template>
+  </section>
+</app-page-wrapper>
