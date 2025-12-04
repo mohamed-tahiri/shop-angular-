@@ -10,9 +10,10 @@ const sampleProduct: Product = {
   price: 2.5,
   created_at: '2025-01-10T10:00:00Z',
   owner_id: 10,
-  ratings: [{ user_id: 2, value: 4 }],
+  ratings: [{ user: 2, value: 4 }],
   stock: 10,
-  image_url: 'http://googleusercontent.com/image_collection/image_retrieval/9138089119264935398_0'
+  image_url: 'http://googleusercontent.com/image_collection/image_retrieval/9138089119264935398_0',
+  lowStockThreshold: 5,
   
 };
 
@@ -24,7 +25,8 @@ const sampleProductNoRating: Product = {
   owner_id: 11,
   ratings: [],
   stock: 10,
-  image_url: 'http://googleusercontent.com/image_collection/image_retrieval/9138089119264935398_0'
+  image_url: 'http://googleusercontent.com/image_collection/image_retrieval/9138089119264935398_0',
+  lowStockThreshold: 3,
 };
 
 const meta: Meta<ProductCardComponent> = {

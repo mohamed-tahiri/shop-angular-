@@ -1,0 +1,38 @@
+<app-page-wrapper>
+  <h2 class="text-3xl font-semibold text-gray-900">Consulter la note d’un produit</h2>
+
+  <!-- Input & Fetch Button -->
+  <div class="flex flex-col sm:flex-row gap-4 items-end">
+    <mat-form-field class="flex-1">
+      <mat-label>Product ID</mat-label>
+      <input matInput type="number" [(ngModel)]="productId" min="1" />
+    </mat-form-field>
+
+    <button
+      mat-flat-button
+      color="primary"
+      class="bg-blue-600 hover:bg-blue-700 text-white rounded-2xl px-6 py-3 font-medium shadow-sm"
+      (click)="fetch()"
+    >
+      Fetch
+    </button>
+  </div>
+
+  <!-- Loading Spinner -->
+  <div *ngIf="loading$ | async" class="flex justify-center mt-6">
+    <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+  </div>
+
+  <!-- Rating Display -->
+  <div *ngIf="rating$ | async as rating" [routerLink]="['/shop/products', productId]" class="mt-6">
+    <mat-card
+      class="rounded-2xl border bg-white px-6 py-5 shadow-sm hover:shadow-md transition-all duration-200"
+    >
+      <h3 class="text-xl font-semibold text-gray-900">Produit #{{ productId }}</h3>
+      <p class="text-gray-700 mt-2">
+        Note moyenne: <span class="font-medium">{{ rating.avg_rating }}</span> ⭐
+      </p>
+      <p class="text-gray-500 text-sm mt-1">Nombre d’avis: {{ rating.count }}</p>
+    </mat-card>
+  </div>
+</app-page-wrapper>

@@ -1,4 +1,4 @@
-import { Component, Input, HostListener, OnInit } from '@angular/core';
+import { Component, Input, HostListener, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { ProductCardComponent } from '../product-card/product-card.component';
@@ -10,6 +10,7 @@ import { Product } from '../../../../mocks/data';
   standalone: true,
   imports: [CommonModule, ProductCardComponent, MatProgressSpinnerModule],
   templateUrl: './products-list.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductsListComponent {
   @Input() products: Product[] = [];

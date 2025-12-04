@@ -50,7 +50,7 @@
     <ng-container *ngIf="!loading">Se connecter</ng-container>
 
     <ng-container *ngIf="loading">
-      <mat-spinner diameter="24" class="mx-auto"></mat-spinner>
+      <mat-progress-spinner mode="indeterminate" diameter="60"></mat-progress-spinner>
     </ng-container>
   </button>
 </form>

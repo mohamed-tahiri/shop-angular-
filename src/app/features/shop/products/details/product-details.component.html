@@ -1,0 +1,94 @@
+<app-page-wrapper>
+  <section class="mx-auto max-w-5xl px-6 py-16 space-y-6">
+    <ng-container *ngIf="product$ | async as product; else loading">
+      <div class="grid md:grid-cols-2 gap-8">
+        <!-- Product Image -->
+        <img
+          [src]="product.image_url"
+          alt="{{ product.name }}"
+          class="w-full rounded-2xl border border-gray-200 shadow-sm object-cover max-h-96"
+        />
+
+        <!-- Product Details -->
+        <div class="space-y-4">
+          <h1 class="text-3xl font-semibold text-gray-900">{{ product.name }}</h1>
+          <p class="text-gray-600">
+            Rating: <span class="font-medium">{{ avgRating$ | async }}</span>
+          </p>
+          <p class="text-2xl font-bold text-gray-800">${{ product.price.toFixed(2) }}</p>
+          <p [ngClass]="stockClass(product.stock)" class="font-medium">
+            Stock: {{ product.stock }}
+          </p>
+          <div class="flex items-center gap-3 mt-4">
+            <input
+              type="number"
+              [(ngModel)]="quantity"
+              min="1"
+              [max]="product.stock"
+              class="w-20 rounded border px-3 py-2 text-center"
+            />
+            <button
+              mat-flat-button
+              color="primary"
+              class="bg-blue-600 hover:bg-blue-700 text-white rounded-2xl px-6 py-2 font-medium shadow-sm"
+              (click)="addToCart(product)"
+            >
+              Ajouter au panier
+            </button>
+          </div>
+
+          <p class="text-gray-700 mt-4">Lorem ipsum dolor sit amet...</p>
+          <p class="text-sm text-gray-400">Ajouté le: {{ product.created_at | date: 'medium' }}</p>
+        </div>
+      </div>
+
+      <!-- ======================= -->
+      <!-- ⭐ SECTION : Avis Clients -->
+      <!-- ======================= -->
+      <div class="mt-8 border-t pt-4">
+        <h2 class="text-xl font-semibold mb-4">Avis Clients</h2>
+        <div *ngFor="let review of reviews$ | async; trackBy: trackById">
+          <p>
+            <strong>User {{ review.user }}:</strong> {{ review.comment }}
+          </p>
+          <p class="text-sm text-gray-500">
+            Rating: {{ review.value }} | {{ review.createdAt | date: 'short' }}
+          </p>
+        </div>
+
+        <!-- Formulaire d'avis -->
+        <div class="mt-6 border-t pt-4">
+          <h3 class="text-lg font-medium mb-2">Laisser un avis</h3>
+          <div class="flex flex-col md:flex-row gap-2 items-start">
+            <input
+              type="number"
+              min="1"
+              max="5"
+              [(ngModel)]="newRating"
+              name="newRating"
+              class="border rounded px-2 py-1 w-20"
+            />
+            <input
+              type="text"
+              [(ngModel)]="newComment"
+              name="newComment"
+              placeholder="Votre commentaire"
+              class="border rounded px-2 py-1 flex-1"
+            />
+            <button
+              type="button"
+              class="bg-green-600 hover:bg-green-700 text-white px-4 py-1 rounded"
+              (click)="submitReview(product.id)"
+            >
+              Poster
+            </button>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+
+    <ng-template #loading>
+      <mat-progress-spinner mode="indeterminate" diameter="60"></mat-progress-spinner>
+    </ng-template>
+  </section>
+</app-page-wrapper>

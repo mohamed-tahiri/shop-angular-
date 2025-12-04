@@ -19,6 +19,7 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { MatMenuModule } from '@angular/material/menu';
 import { removeItem } from '../../../../state/cart/cart.actions';
 
 @Component({
@@ -31,7 +32,8 @@ import { removeItem } from '../../../../state/cart/cart.actions';
     MatFormFieldModule, 
     MatInputModule, 
     MatButtonModule, 
-    MatToolbarModule
+    MatToolbarModule,
+    MatMenuModule
   ],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css'],
@@ -55,13 +57,15 @@ export class HeaderComponent {
 
   // Navigation
   goHome() { this.router.navigate(['/']); }
-  goToProducts() { this.router.navigate(['/app/shop/products']); }
-  onLogin() { this.router.navigate(['/app/login']); }
+  goToProducts() { this.router.navigate(['/shop/products']); }
+  onLogin() { this.router.navigate(['/login']); }
   onLogout() { this.store.dispatch(logout()); }
-  goToCart() { this.router.navigate(['/app/shop/cart']); }
-  goToRatings() { this.router.navigate(['/app/shop/products/rating']); }
-  goToWishlist() { this.router.navigate(['/app/shop/wishlist']); }
-  checkout() { this.router.navigate(['/app/shop/checkout/summary']); }
+  goToCart() { this.router.navigate(['/shop/cart']); }
+  goToRatings() { this.router.navigate(['/shop/products/rating']); }
+  goToWishlist() { this.router.navigate(['/shop/wishlist']); }
+  checkout() { this.router.navigate(['/shop/checkout/summary']); }
+  goToProfile() { this.router.navigate(['/shop/account/profile']); }
+  goToMyOrders() { this.router.navigate(['/shop/account/orders']); }
 
   // Cart actions
   remove(productId: number) {
@@ -86,7 +90,7 @@ export class HeaderComponent {
   }
 
   goToProduct(productId: number) {
-    this.router.navigate(['/app/shop/products', productId]);
+    this.router.navigate(['/shop/products', productId]);
     this.searchResults = [];
     this.searchQuery = '';
   }

@@ -172,10 +172,15 @@
         </div>
       </div>
 
-      <!-- Déconnexion -->
-      <button mat-icon-button (click)="onLogout()" class="text-gray-800 hidden md:flex">
-        <mat-icon>logout</mat-icon>
+      <!-- User Icon -->
+      <button mat-icon-button [matMenuTriggerFor]="userMenu" class="text-gray-800">
+        <mat-icon>account_circle</mat-icon>
       </button>
+      <mat-menu #userMenu="matMenu">
+        <button mat-menu-item (click)="goToProfile()">Profil</button>
+        <button mat-menu-item (click)="goToMyOrders()">Mes commandes</button>
+        <button mat-menu-item (click)="onLogout()">Déconnexion</button>
+      </mat-menu>
     </ng-container>
 
     <!-- LOGIN ICON -->

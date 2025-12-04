@@ -1,0 +1,26 @@
+<app-page-wrapper>
+  <h2 class="text-3xl font-bold text-gray-900">Your Wishlist</h2>
+
+  <!-- Wishlist items -->
+  <div *ngIf="(wishlistItems$ | async)?.length; else emptyWishlist" class="space-y-6">
+    <div class="grid gap-6">
+      <app-products-list
+        [products]="(wishlistItems$ | async) || []"
+        [loading]="false"
+      ></app-products-list>
+    </div>
+  </div>
+
+  <!-- Empty Wishlist -->
+  <ng-template #emptyWishlist>
+    <div class="text-center py-16">
+      <p class="text-gray-500 text-lg">Your wishlist is empty.</p>
+      <button
+        class="mt-4 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-medium shadow-sm transition"
+        (click)="router.navigate(['/shop/products'])"
+      >
+        Continue Shopping
+      </button>
+    </div>
+  </ng-template>
+</app-page-wrapper>

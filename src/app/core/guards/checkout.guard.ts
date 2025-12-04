@@ -21,13 +21,13 @@ export class CheckoutGuard implements CanActivate {
       map(([isLoggedIn, cartItems]) => {
         if (!isLoggedIn) {
           // Si non connecté → redirection vers login
-          this.router.navigate(['/app/login']);
+          this.router.navigate(['/login']);
           return false;
         }
 
         if (!cartItems || cartItems.length === 0) {
           // Si le panier est vide → redirection vers la page produits
-          this.router.navigate(['/app/shop/products']);
+          this.router.navigate(['/shop/products']);
           return false;
         }
 

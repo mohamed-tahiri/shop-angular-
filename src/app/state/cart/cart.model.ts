@@ -6,6 +6,8 @@ export interface CartItem {
   created_at: string;
   imageUrl: string;
   quantity: number;
+  stock?: number;             // quantité disponible
+  lowStockThreshold?: number; // seuil "stock faible"
 }
 
 export interface Coupon {

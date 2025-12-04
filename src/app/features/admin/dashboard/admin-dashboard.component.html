@@ -1,0 +1,84 @@
+<app-page-wrapper>
+  <h1 class="text-3xl font-bold mb-6 text-gray-800">Dashboard Admin</h1>
+
+  <!-- Loading -->
+  <ng-container *ngIf="loading$ | async">
+    <mat-progress-spinner mode="indeterminate" diameter="60"></mat-progress-spinner>
+  </ng-container>
+
+  <!-- Error -->
+  <ng-container *ngIf="error$ | async as error">
+    <mat-card class="mb-4 bg-red-50 border-l-4 border-red-500">
+      <p class="text-red-600 font-medium p-4">{{ error }}</p>
+    </mat-card>
+  </ng-container>
+
+  <!-- Stats -->
+  <ng-container *ngIf="stats$ | async as stats">
+    <!-- Cards Stats -->
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
+      <mat-card class="p-6 shadow hover:shadow-lg transition">
+        <h2 class="text-lg font-medium text-gray-500">Utilisateurs</h2>
+        <p class="text-3xl font-bold text-gray-900 mt-2">{{ stats.totalUsers }}</p>
+      </mat-card>
+
+      <mat-card class="p-6 shadow hover:shadow-lg transition">
+        <h2 class="text-lg font-medium text-gray-500">Commandes</h2>
+        <p class="text-3xl font-bold text-gray-900 mt-2">{{ stats.totalOrders }}</p>
+      </mat-card>
+
+      <mat-card class="p-6 shadow hover:shadow-lg transition">
+        <h2 class="text-lg font-medium text-gray-500">Chiffre d'affaires</h2>
+        <p class="text-3xl font-bold text-gray-900 mt-2">{{ stats.totalRevenue | number }} €</p>
+      </mat-card>
+    </div>
+
+    <!-- Top Products -->
+    <h2 class="text-2xl font-bold mb-4 text-gray-800">Top Produits</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
+      <mat-card *ngFor="let p of stats.topProducts" class="p-4 shadow hover:shadow-lg transition">
+        <p class="font-semibold text-gray-900 mb-2">{{ p.name }}</p>
+        <p class="text-gray-600 text-sm">
+          Vendus : <span class="font-medium">{{ p.sold }}</span>
+        </p>
+        <p class="text-gray-600 text-sm">
+          Revenus : <span class="font-medium">{{ p.revenue | number }} €</span>
+        </p>
+      </mat-card>
+    </div>
+
+    <!-- Recent Orders -->
+    <h2 class="text-2xl font-bold mb-4 text-gray-800">Commandes récentes</h2>
+    <mat-card class="overflow-x-auto shadow">
+      <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-gray-100">
+          <tr>
+            <th class="px-4 py-2 text-left text-sm font-medium text-gray-600">ID</th>
+            <th class="px-4 py-2 text-left text-sm font-medium text-gray-600">Utilisateur</th>
+            <th class="px-4 py-2 text-left text-sm font-medium text-gray-600">Total</th>
+            <th class="px-4 py-2 text-left text-sm font-medium text-gray-600">Date</th>
+            <th class="px-4 py-2 text-left text-sm font-medium text-gray-600">Statut</th>
+          </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-200">
+          <tr *ngFor="let o of stats.recentOrders" class="hover:bg-gray-50 transition">
+            <td class="px-4 py-2 text-gray-800">{{ o.id }}</td>
+            <td class="px-4 py-2 text-gray-800">{{ o.user }}</td>
+            <td class="px-4 py-2 text-gray-800">{{ o.total | number }} €</td>
+            <td class="px-4 py-2 text-gray-800">{{ o.createdAt | date: 'short' }}</td>
+            <td class="px-4 py-2">
+              <span
+                [ngClass]="{
+                  'text-green-600 font-semibold': o.status === 'Delivered',
+                  'text-yellow-600 font-semibold': o.status === 'Pending',
+                  'text-red-600 font-semibold': o.status === 'Cancelled',
+                }"
+                >{{ o.status }}</span
+              >
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </mat-card>
+  </ng-container>
+</app-page-wrapper>

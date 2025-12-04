@@ -10,6 +10,7 @@ export class ProductsEffects {
   private actions$ = inject(Actions);
   private api = inject(ShopApiService);
 
+  // Load products
   load$ = createEffect(() =>
     this.actions$.pipe(
       ofType(P.loadProducts),
@@ -22,6 +23,7 @@ export class ProductsEffects {
     )
   );
 
+  // Load single product
   loadProduct$ = createEffect(() =>
     this.actions$.pipe(
       ofType(P.loadProduct),
@@ -34,6 +36,7 @@ export class ProductsEffects {
     )
   );
 
+  // Load rating
   loadRating$ = createEffect(() =>
     this.actions$.pipe(
       ofType(P.loadRating),
@@ -41,6 +44,32 @@ export class ProductsEffects {
         this.api.getRating(id).pipe(
           map(r => P.loadRatingSuccess({ id: r.product_id, avg_rating: r.avg_rating, count: r.count })),
           catchError(error => of(P.loadRatingFailure({ error })))
+        )
+      )
+    )
+  );
+
+  // Load reviews
+  loadReviews$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(P.loadReviews),
+      switchMap(({ productId }) =>
+        this.api.getReviews(productId).pipe(
+          map(reviews => P.loadReviewsSuccess({ productId, reviews })),
+          catchError(error => of(P.loadReviewsFailure({ error })))
+        )
+      )
+    )
+  );
+
+  // Post review
+  postReview$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(P.postReview),
+      switchMap(({ productId, review }) =>
+        this.api.postReview(productId, { value: review.value, comment: review.comment }).pipe(
+          map(savedReview => P.postReviewSuccess({ productId, review: savedReview })),
+          catchError(error => of(P.postReviewFailure({ error })))
         )
       )
     )

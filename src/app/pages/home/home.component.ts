@@ -15,21 +15,22 @@ import { ClickableContainerComponent } from '../../shared/components/UI/clickabl
       <p class="text-gray-500 text-lg">Choisis une zone pour continuer</p>
     </div>
 
-    <div class="grid sm:grid-cols-2 gap-6 mb-16">
-      <!-- Card 1 -->
-
-      <app-container
-        link="/dev"
-      >
+    <div class="grid sm:grid-cols-3 gap-6 mb-16">
+      <app-container link="/dev" class="cursor-pointer">
         <h2 class="text-lg font-medium text-gray-900">Zone de test MSW</h2>
         <p class="text-gray-500 text-sm mt-1">
-          Espace de développement et simulations API.
+          Espace de développement et simulations d'API.
         </p>
       </app-container>
 
-      <app-container
-        link="/app"
-      >
+      <app-container link="/admin/dashboard" class="cursor-pointer">
+        <h2 class="text-lg font-medium text-gray-900">Partie admin</h2>
+        <p class="text-gray-500 text-sm mt-1">
+          Espace de l'administrateur.
+        </p>
+      </app-container>
+
+      <app-container link="/login" class="cursor-pointer">
         <h2 class="text-lg font-medium text-gray-900">Accéder à l’app</h2>
         <p class="text-gray-500 text-sm mt-1">
           Version placeholder de l’application principale.

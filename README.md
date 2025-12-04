@@ -23,13 +23,13 @@ Includes Storybook stories for key presentational components.
 - Displays total count and product cards.
 - Shows loading spinner while fetching.
 - Pagination with `Prev/Next` buttons.
-- **Route:** `/app/shop/products`
+- **Route:** `/shop/products`
 
 ### 3. Product Rating Page
 
 - Enter a Product ID to fetch its average rating and vote count.
 - Fetches from `/api/products/:id/rating/`.
-- **Route:** `/app/shop/products/rating`
+- **Route:** `/shop/products/rating`
 
 ### 4. State Management
 
@@ -47,18 +47,17 @@ Includes Storybook stories for key presentational components.
 
 ### 6. Routing
 
-| Route                       | Component                    |
-| --------------------------- | ---------------------------- |
-| `/`                         | `HomeComponent`              |
-| `/dev`                      | `DevIndexComponent`          |
-| `/dev/auth`                 | `DevAuthComponent`           |
-| `/dev/products`             | `DevProductsComponent`       |
-| `/dev/products/:id/rating`  | `DevProductRatingComponent`  |
-| `/app`                      | `AppPlaceholderComponent`    |
-| `/app/login`                | `LoginPageComponent`         |
-| `/app/shop/products`        | `ProductsPageComponent`      |
-| `/app/shop/products/rating` | `ProductRatingPageComponent` |
-| `**`                        | Redirect to `/`              |
+| Route                      | Component                    |
+| -------------------------- | ---------------------------- |
+| `/`                        | `HomeComponent`              |
+| `/dev`                     | `DevIndexComponent`          |
+| `/dev/auth`                | `DevAuthComponent`           |
+| `/dev/products`            | `DevProductsComponent`       |
+| `/dev/products/:id/rating` | `DevProductRatingComponent`  |
+| `/login`                   | `LoginPageComponent`         |
+| `/shop/products`           | `ProductsPageComponent`      |
+| `/shop/products/rating`    | `ProductRatingPageComponent` |
+| `**`                       | Redirect to `/`              |
 
 ### 7. UI & Styling
 
