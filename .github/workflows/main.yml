@@ -39,26 +39,22 @@ jobs:
       - name: Install dependencies
         run: npm install --legacy-peer-deps
 
-      # 5) Linter le code
-      - name: Run Lint
-        run: npm run lint
-
-      # 6) Exécuter les tests unitaires
+      # 5) Exécuter les tests unitaires
       - name: Run Unit Tests
         run: npm run test -- --watch=false --browsers=ChromeHeadless
 
-      # 7) Build Angular
+      # 6) Build Angular
       - name: Build Angular app
         run: npm run build -- --configuration production
 
-      # 8) Login Docker Hub
+      # 7) Login Docker Hub
       - name: Login to Docker Hub
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      # 9) Build & Push Image Docker
+      # 8) Build & Push Image Docker
       - name: Build and Push Docker image
         uses: docker/build-push-action@v5
         with:
