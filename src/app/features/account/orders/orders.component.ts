@@ -68,6 +68,6 @@ export class OrdersPageComponent implements OnInit {
   }
 
   goToOrder(orderId: string) {
-    this.router.navigate([`/shop/account/orders/${orderId}`]);
+    this.router.navigate([`/account/orders/${orderId}`]);
   }
 }
