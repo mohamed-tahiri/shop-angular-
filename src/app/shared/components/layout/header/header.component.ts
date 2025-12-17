@@ -64,8 +64,8 @@ export class HeaderComponent {
   goToRatings() { this.router.navigate(['/shop/products/rating']); }
   goToWishlist() { this.router.navigate(['/shop/wishlist']); }
   checkout() { this.router.navigate(['/shop/checkout/summary']); }
-  goToProfile() { this.router.navigate(['/shop/account/profile']); }
-  goToMyOrders() { this.router.navigate(['/shop/account/orders']); }
+  goToProfile() { this.router.navigate(['/account/profile']); }
+  goToMyOrders() { this.router.navigate(['/account/orders']); }
 
   // Cart actions
   remove(productId: number) {
