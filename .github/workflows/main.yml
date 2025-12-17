@@ -1,6 +1,11 @@
 name: Build & Push Angular App to Docker Hub
 
 on:
+  pull_request:
+    types:
+      - opened
+      - ready_for_review
+      - closed
   push:
     branches:
       - master
